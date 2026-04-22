@@ -48,14 +48,16 @@ def finished():
     elif finish:
         print(Fore.RED + f"{queue[0]} left the queue." + Fore.WHITE)
         split()
-        treated.append(queue.pop(0))
+        with open("data.txt", "a", encoding="utf-8") as archive:
+            archive.write(queue.pop(0) + "\n")
         queue_list()
         finish = False
 
 def clearing_queue():
     sleep(0.3)
     print(Fore.RED + f"{queue[0]} left the queue." + Fore.WHITE)
-    treated.append(queue.pop(0))
+    with open("data.txt", "a", encoding="utf-8") as archive:
+        archive.write(queue.pop(0) + "\n")
     split()
     sleep(0.3)
 
@@ -65,10 +67,13 @@ def end_program():
 
 def treated_patients():
     print("Treated patients:")
-    for i in range(len(treated)):
-        print(Fore.GREEN + f"{i+1}°: {treated[i]}" + Fore.WHITE)
+    with open("data.txt", "r", encoding="utf-8") as names:
+        name = [linha.strip() for linha in names.readlines()]
+    for i in name:
+        print(Fore.GREEN + i + Fore.WHITE)
     split()
     print(Fore.BLUE + "Queue has finished!")
+    os.remove("data.txt")
 
 def program():
     while True:
